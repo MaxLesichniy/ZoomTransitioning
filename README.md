@@ -22,10 +22,10 @@ Run the demo project in the Demo directory without `carthage update` or `pod ins
 Refer to the example project for details.
 
 ### `import ZoomTransitioning`
-### Adopt `ZoomTransitionSourceDelegate` to source view controller
+### Adopt `ZoomTransitionSource` to source view controller
 
 ```swift
-extension ImageListViewController: ZoomTransitionSourceDelegate {
+extension ImageListViewController: ZoomTransitionSource {
 
     func transitionSourceImageView() -> UIImageView {
         return selectedImageView
