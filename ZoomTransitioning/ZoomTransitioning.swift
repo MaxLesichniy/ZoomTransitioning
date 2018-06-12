@@ -17,6 +17,7 @@ public final class ZoomTransitioning: NSObject {
     public var transitionDuration: TimeInterval = 0.5
     public var animationSpringDamping: CGFloat = 0.75
     public var animationSpringInitialVelocity: CGFloat = 0.0
+    public var fadingTransitionImageViewDuration: TimeInterval = 0.2
     
     required public init(source: ZoomTransitionSource, destination: ZoomTransitionDestination, forward: Bool) {
         self.source = source
@@ -89,9 +90,13 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
             },
             completion: { _ in
                 sourceView?.alpha = 1.0
-                transitioningImageView.alpha = 0.0
-                transitioningImageView.removeFromSuperview()
 
+                UIView.animate(withDuration: self.fadingTransitionImageViewDuration, animations: {
+                    transitioningImageView.alpha = 0.0
+                }, completion: { _ in
+                    transitioningImageView.removeFromSuperview()
+                })
+                
                 self.source.transitionSourceDidEnd(self)
                 self.destination.transitionDestinationDidEnd(self, transitioningImageView: transitioningImageView)
 
@@ -144,7 +149,12 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
             },
             completion: { _ in
                 destinationView.alpha = 1.0
-                transitioningImageView.removeFromSuperview()
+                
+                UIView.animate(withDuration: self.fadingTransitionImageViewDuration, animations: {
+                    transitioningImageView.alpha = 0.0
+                }, completion: { _ in
+                    transitioningImageView.removeFromSuperview()
+                })
 
                 self.source.transitionSourceDidEnd(self)
                 self.destination.transitionDestinationDidEnd(self, transitioningImageView: transitioningImageView)

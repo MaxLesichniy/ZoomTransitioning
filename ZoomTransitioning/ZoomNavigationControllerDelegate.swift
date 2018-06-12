@@ -11,6 +11,7 @@ import UIKit
 public final class ZoomNavigationControllerDelegate: NSObject, UIGestureRecognizerDelegate {
 
     fileprivate var interactionController: UIPercentDrivenInteractiveTransition?
+    public fileprivate(set) var interactivePopGestureRecognizer: UIGestureRecognizer?
     weak var navigationController: UINavigationController?
     
     public init(navigationController: UINavigationController) {
@@ -21,6 +22,7 @@ public final class ZoomNavigationControllerDelegate: NSObject, UIGestureRecogniz
         left.delegate = self
         left.edges = .left
         navigationController.view.addGestureRecognizer(left)
+        self.interactivePopGestureRecognizer = left
     }
     
     @objc private func handleSwipeFromLeft(_ gesture: UIScreenEdgePanGestureRecognizer) {
