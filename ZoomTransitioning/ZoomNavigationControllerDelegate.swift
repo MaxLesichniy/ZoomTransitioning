@@ -65,6 +65,23 @@ public final class ZoomNavigationControllerDelegate: NSObject, UIGestureRecogniz
         }
         return true
     }
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        if let source = sourceForController(fromVC),
+//            let destination = destinationForController(toVC),
+//            source.transitionSourceImageView() != nil,
+//            destination.transitionDestinationImageViewFrame(forward: true) != nil,
+//            operation == .push {
+//            return true
+//        } else if let source = sourceForController(toVC),
+//            let destination = destinationForController(fromVC),
+//            destination.transitionDestinationImageView() != nil,
+//            source.transitionSourceImageViewFrame(forward: false) != nil,
+//            operation == .pop {
+//            return true
+//        }
+        return false
+    }
 }
 
 
@@ -72,7 +89,7 @@ public final class ZoomNavigationControllerDelegate: NSObject, UIGestureRecogniz
 
 extension ZoomNavigationControllerDelegate: UINavigationControllerDelegate {
 
-    private func sourceForController(_ controller: UIViewController) -> ZoomTransitionSource? {
+    fileprivate func sourceForController(_ controller: UIViewController) -> ZoomTransitionSource? {
         if let comform = controller as? ZoomTransitionSource {
             return comform
         } else {
@@ -85,7 +102,7 @@ extension ZoomNavigationControllerDelegate: UINavigationControllerDelegate {
         }
     }
 
-    private func destinationForController(_ controller: UIViewController) -> ZoomTransitionDestination? {
+    fileprivate func destinationForController(_ controller: UIViewController) -> ZoomTransitionDestination? {
         if let comform = controller as? ZoomTransitionDestination {
             return comform
         } else {
