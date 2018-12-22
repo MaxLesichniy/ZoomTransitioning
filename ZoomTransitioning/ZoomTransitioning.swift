@@ -28,7 +28,6 @@ public final class ZoomTransitioning: NSObject {
     }
 }
 
-
 // MARK: -  UIViewControllerAnimatedTransitioning
 
 extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
@@ -62,13 +61,25 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
         sourceView?.alpha = 1.0
         destinationView.alpha = 0.0
 
+        let transitionView = UIView(frame: containerView.bounds)
+        
+        if let clipFrame = destination.transitionDestinationClippingMaskFrame(self) {
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = CGPath(rect: clipFrame, transform: nil)
+            maskLayer.frame = transitionView.bounds
+            maskLayer.fillColor = UIColor.black.cgColor
+            transitionView.layer.mask = maskLayer
+        }
+        
         if let sourceView = sourceView, transitionContext.presentationStyle == .none {
             containerView.insertSubview(destinationView, belowSubview: sourceView)
             containerView.backgroundColor = sourceView.backgroundColor
         } else {
             containerView.addSubview(destinationView)
         }
-        containerView.addSubview(transitioningImageView)
+        
+        transitionView.addSubview(transitioningImageView)
+        containerView.addSubview(transitionView)
         
         source.transitionSourceWillBegin(self)
         destination.transitionDestinationWillBegin(self)
@@ -94,7 +105,7 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
                 UIView.animate(withDuration: self.fadingTransitionImageViewDuration, animations: {
                     transitioningImageView.alpha = 0.0
                 }, completion: { _ in
-                    transitioningImageView.removeFromSuperview()
+                    transitionView.removeFromSuperview()
                 })
                 
                 self.source.transitionSourceDidEnd(self)
@@ -119,12 +130,24 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
         destinationView.alpha = 1.0
         sourceView?.alpha = 0.0
 
+        let transitionView = UIView(frame: containerView.bounds)
+        
+        if let clipFrame = source.transitionSourceClippingMaskFrame(self) {
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = CGPath(rect: clipFrame, transform: nil)
+            maskLayer.frame = transitionView.bounds
+            maskLayer.fillColor = UIColor.black.cgColor
+            transitionView.layer.mask = maskLayer
+        }
+        
         if let sourceView = sourceView, transitionContext.presentationStyle == .none {
             containerView.insertSubview(sourceView, belowSubview: destinationView)
             containerView.backgroundColor = destinationView.backgroundColor
         }
-        containerView.addSubview(transitioningImageView)
-
+        
+        transitionView.addSubview(transitioningImageView)
+        containerView.addSubview(transitionView)
+        
         source.transitionSourceWillBegin(self)
         destination.transitionDestinationWillBegin(self)
 
@@ -153,7 +176,7 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
                 UIView.animate(withDuration: self.fadingTransitionImageViewDuration, animations: {
                     transitioningImageView.alpha = 0.0
                 }, completion: { _ in
-                    transitioningImageView.removeFromSuperview()
+                    transitionView.removeFromSuperview()
                 })
 
                 self.source.transitionSourceDidEnd(self)
