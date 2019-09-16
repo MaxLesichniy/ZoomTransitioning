@@ -84,9 +84,9 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
         source.transitionSourceWillBegin(self)
         destination.transitionDestinationWillBegin(self)
 
-        UIView.animateCornerRadii(withDuration: self.transitionDuration(using: transitionContext),
-                                  to: transitionDestinationImageView()?.layer.cornerRadius ?? 0,
-                                  views: [transitioningImageView])
+//        UIView.animateCornerRadii(withDuration: self.transitionDuration(using: transitionContext),
+//                                  to: transitionDestinationImageView()?.layer.cornerRadius ?? 0,
+//                                  views: [transitioningImageView])
         
         UIView.animate(
             withDuration: transitionDuration,
@@ -97,6 +97,8 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
             animations: {
                 sourceView?.alpha = 0.0
                 destinationView.alpha = 1.0
+                transitioningImageView.layer.cornerRadius = self.transitionDestinationImageView()?.layer.cornerRadius ?? 0
+                transitioningImageView.layer.masksToBounds = true
                 transitioningImageView.frame = self.destination.transitionDestinationImageViewFrame(forward: self.forward) ?? .zero
             },
             completion: { _ in
@@ -155,9 +157,9 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
             transitioningImageView.frame.origin.y = -transitioningImageView.frame.height
         }
         
-        UIView.animateCornerRadii(withDuration: self.transitionDuration(using: transitionContext),
-                                  to: transitionSourceImageView()?.layer.cornerRadius ?? 0,
-                                  views: [transitioningImageView])
+//        UIView.animateCornerRadii(withDuration: self.transitionDuration(using: transitionContext),
+//                                  to: transitionSourceImageView()?.layer.cornerRadius ?? 0,
+//                                  views: [transitioningImageView])
         
         UIView.animate(
             withDuration: transitionDuration,
@@ -168,6 +170,8 @@ extension ZoomTransitioning: UIViewControllerAnimatedTransitioning {
             animations: {
                 destinationView.alpha = 0.0
                 sourceView?.alpha = 1.0
+                transitioningImageView.layer.cornerRadius = self.transitionSourceImageView()?.layer.cornerRadius ?? 0
+                transitioningImageView.layer.masksToBounds = true
                 transitioningImageView.frame = self.source.transitionSourceImageViewFrame(forward: self.forward) ?? .zero
             },
             completion: { _ in
