@@ -8,8 +8,12 @@
 
 import UIKit
 
+public protocol ZoomTransitionSourceProvider {
+    var zoomTransitionSource: ZoomTransitionSource? { get }
+}
+
 public protocol ZoomTransitionSource {
-    func transitionSourceImageView() -> UIImageView?
+    func transitionSourceImageView(_ toViewController: UIViewController) -> UIImageView?
     func transitionSourceImageViewFrame(forward: Bool) -> CGRect?
     func transitionSourceClippingMaskFrame(_ transitioning: ZoomTransitioning) -> CGRect?
     func transitionSourceWillBegin(_ transitioning: ZoomTransitioning)

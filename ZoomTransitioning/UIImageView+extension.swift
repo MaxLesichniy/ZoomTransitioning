@@ -8,20 +8,6 @@
 
 import UIKit
 
-extension UIImageView {
-
-    convenience init(baseImageView: UIImageView, frame: CGRect) {
-        self.init(frame: CGRect.zero)
-
-        image = baseImageView.image
-        contentMode = baseImageView.contentMode
-        layer.cornerRadius = baseImageView.layer.cornerRadius
-        clipsToBounds = true
-        
-        self.frame = frame
-    }
-}
-
 extension UIView {
     
     class func animateCornerRadii(withDuration duration: TimeInterval, to value: CGFloat, views: [UIView], completion: ((Bool) -> Void)? = nil) {
